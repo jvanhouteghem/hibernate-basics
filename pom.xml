@@ -1,0 +1,143 @@
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>my.groupid</groupId>
+    <artifactId>my-artifactId</artifactId>
+    <packaging>war</packaging>
+    <version>version</version>
+    <name>Spring MVC Application</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java-version>1.8</java-version>
+        <!-- Override Spring version -->
+        <!-- spring.version>4.3.3.RELEASE</spring.version -->
+        <!-- Thymeleaf 3 -->
+        <org.thymeleaf-version>3.0.2.RELEASE</org.thymeleaf-version>
+        <org.thymeleaf.extras.springsecurity4-version>3.0.0.RELEASE</org.thymeleaf.extras.springsecurity4-version>
+        <nz.net.ultraq.thymeleaflayout-version>2.0.5</nz.net.ultraq.thymeleaflayout-version>
+        <thymeleaf-extras-java8time-version>3.0.0.RELEASE</thymeleaf-extras-java8time-version>
+        <!-- AssertJ is not a part of Spring IO platform, so the version must be provided explicitly -->
+        <assertj-core-version>3.5.2</assertj-core-version>
+    </properties>
+    <parent>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>Athens-SR1</version>
+        <relativePath/>
+    </parent>
+    <dependencies>
+    	<!--  Mysql -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>5.1.6</version>
+	</dependency>
+	<!-- <dependency>
+	   <groupId>javax.el</groupId>
+	   <artifactId>javax.el-api</artifactId>
+	   <version>2.2.4</version>
+	</dependency>-->
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <!-- Avoid issue #72 Could not initialize class org.thymeleaf.templateresolver.ServletContextTemplateResolver due to 'validation is not supported' -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>pull-parser</artifactId>
+                    <groupId>pull-parser</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- @Inject -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core-version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
